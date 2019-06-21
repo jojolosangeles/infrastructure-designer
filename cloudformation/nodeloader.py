@@ -1,5 +1,5 @@
 import sys
-from cloudformation.yamlloader import YamlLoader, YamlFlattener
+import datetime   # do not remove, needed for 'datetime' reference in cloudformation files
 
 class CFComponent:
     def __init__(self, name):
@@ -33,7 +33,7 @@ class Parameter(CFComponent):
             self.properties[k] = v
 
     def __str__(self):
-        default = self.properties.get("Default", "")
+        default = str(self.properties.get("Default", ""))
         defaultStr = f" = {default}" if len(default) > 0 else ""
         return f"(node) {self.name} ~~~ {self.type}{defaultStr}"
 
@@ -104,13 +104,19 @@ class NodeLoader:
         return resources
 
 
+def getFileName(filePath):
+    return filePath.replace('.flat', '.graph').replace('/flat/', '/graph/').replace('./', '')
+
 if __name__ == "__main__":
     flatFile = sys.argv[1]
+    if len(sys.argv) == 2:
+        sys.stdout = open(getFileName(flatFile), "w")
     with open(flatFile, "r") as inFile:
         lines = inFile.readlines()
         lists = [ eval(line) for line in lines ]
 
     nodeLoader = NodeLoader(lists)
+
     print("-- parameters --")
     for k,v in nodeLoader.parameters.items():
         print(v)
