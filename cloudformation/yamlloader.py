@@ -1,7 +1,7 @@
 import yaml
 
 def general_constructor(loader, tag_suffix, node):
-    return f"{tag_suffix}_{node.value}"
+    return f"{tag_suffix}___{node.value}"
 
 yaml.SafeLoader.add_multi_constructor(u'!', general_constructor)
 
