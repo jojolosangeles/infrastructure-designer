@@ -1,3 +1,4 @@
+from queue import Queue
 
 class NodeVisit:
     """Enter/exit a node when it is visited"""
@@ -17,8 +18,26 @@ class DFStraversal:
     def __init__(self, visitor):
         self.visitor = visitor
 
+    def traverse(self, nodeOrList, depth=0):
+        nodeList = nodeOrList if isinstance(nodeOrList, list) else [ nodeOrList ]
+        for node in nodeList:
+            with NodeVisit(self.visitor, node, depth):
+                if not self.visitor.isDone() and self.visitor.shouldTraverseChildren(node, depth):
+                    for key,child in node.children.items():
+                        self.traverse(child, depth+1)
+
+class BFStraversal:
+    """Breadth First traversal with a Visitor"""
+    def __init__(self, visitor):
+        self.visitor = visitor
+        self.queue = Queue()
+
     def traverse(self, node, depth=0):
-        with NodeVisit(self.visitor, node, depth):
+        self.queue.put((node, depth))
+        while not self.queue.empty():
+            node, depth = self.queue.get()
+            self.visitor.enterNode(node, depth)
             if not self.visitor.isDone() and self.visitor.shouldTraverseChildren(node, depth):
                 for key,child in node.children.items():
-                    self.traverse(child, depth+1)
+                    self.queue.put((child, depth+1))
+            self.visitor.exitNode(node, depth)

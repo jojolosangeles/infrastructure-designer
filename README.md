@@ -12,3 +12,17 @@ So in theory, I can load a CloudFormation into a graph.  Since the
 graph is a complete specification of the infrastructure, both analyzing
 a graph and modifying the graph are operations on the infrastructure.
 
+##### Using Visitors to Query a Tree
+
+Suppose I want to know the following about a cloudformation configuration:
+
+- is there a bastion host?  how is it secured?
+- what level of fault tolerance is provided?  
+- what does my network level security look like?
+
+##### Using Visitors to Modify a Tree
+
+Suppose I want to have these components in my architecture:
+
+- bastion host in its own subnet accessing all my EC2 instances
+

@@ -1,5 +1,5 @@
 import sys
-from cloudformation.yamlloader import YamlLoader, YamlFlattener
+from loader.yamlloader import YamlLoader, YamlFlattener
 import contextlib
 
 # from https://stackoverflow.com/questions/17602878/how-to-handle-both-with-open-and-sys-stdout-nicely

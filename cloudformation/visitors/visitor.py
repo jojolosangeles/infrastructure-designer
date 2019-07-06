@@ -24,19 +24,6 @@ class Visitor:
     def shouldTraverseChildren(self, node=None, depth=0):
         return depth < self.maxDepth
 
-class FindVisitor(Visitor):
-    def __init__(self, target, maxDepth=None):
-        self.target = target
-        self.foundTarget = False
-        super().__init__(maxDepth)
-
-    def enterNode(self, node, depth):
-        if node.name == self.target:
-            self.foundTarget = True
-            self.result = node
-
-    def isDone(self):
-        return self.foundTarget
 
 
 

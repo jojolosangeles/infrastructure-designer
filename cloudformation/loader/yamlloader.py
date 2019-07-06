@@ -1,4 +1,5 @@
 import yaml
+import sys
 
 def general_constructor(loader, tag_suffix, node):
     return f"{tag_suffix}___{node.value}"
@@ -49,8 +50,11 @@ class YamlFlattener:
                     for d in self.dict_generator(value, pre + [key]):
                         yield d
                 elif isinstance(value, list) or isinstance(value, tuple):
+                    instance_number = 0
                     for v in value:
-                        for d in self.dict_generator(v, pre + [key]):
+                        ikey = f"{key}[{instance_number}]"
+                        instance_number += 1
+                        for d in self.dict_generator(v, pre + [ikey]):
                             yield d
                 else:
                     yield pre + [key, value]
@@ -59,3 +63,10 @@ class YamlFlattener:
 
     def flatten(self):
         return [n for n in self.dict_generator(self.data)]
+
+
+if __name__ == "__main__":
+    filePath = sys.argv[1]
+    yamlFlattener = YamlFlattener(YamlLoader(filePath).data)
+    for l in yamlFlattener.flatten():
+        print(l)
