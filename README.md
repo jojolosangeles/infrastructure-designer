@@ -16,9 +16,17 @@ a graph and modifying the graph are operations on the infrastructure.
 
 Suppose I want to know the following about a cloudformation configuration:
 
-- is there a bastion host?  how is it secured?
-- what level of fault tolerance is provided?  
-- what does my network level security look like?
+- What is my attack surface at the port level?
+  - is my VPC internet accessible?
+  - do I have private subnets?
+  - is communication restricted by ports?  security groups?  network ACLs?
+- What is my fault tolerance?
+  - which resources can fail?  which recover from failure?  which don't fail?
+  - does architecture detect and recover from failure?
+- Is my infrastructure scalable?
+  - are scaling metric used?
+  - are there scaling up/scaling down patterns?
+  - is there a measurement of need to scale up or down?
 
 ##### Using Visitors to Modify a Tree
 

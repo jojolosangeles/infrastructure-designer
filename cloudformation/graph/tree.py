@@ -39,9 +39,18 @@ class TreeGraph:
         dfs.traverse(self.root)
         return referenceFinderVisitor.result
 
+    def findReferencesToNodes(self, nodeList):
+        results = []
+        for node in nodeList:
+            findVisitor = FindVisitor(node.name)
+            dfs = DFStraversal(findVisitor)
+            dfs.traverse(self.root)
+            results += [findVisitor.result]
+        return results
+
     def findResourceReferencesTo(self, nodeName):
         references = self.findReferencesTo(nodeName)
-        return [self.asResourceNode(ref) for ref in references]
+        return [] if references == None else [self.asResourceNode(ref) for ref in references]
 
     def asResourceNode(self, startNode):
         scanner = startNode
